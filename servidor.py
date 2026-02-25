@@ -31,6 +31,7 @@ def home():
     return render_template_string(HTML)
 
 # 🔐 ROTA ADMIN
+
 @app.route("/admin")
 def admin():
     try:
@@ -86,3 +87,4 @@ def admin():
 
     html += "</body></html>"
     return html
+
