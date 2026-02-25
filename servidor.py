@@ -36,10 +36,53 @@ def admin():
     try:
         with open("relatos.txt", "r", encoding="utf-8") as f:
             conteudo = f.read()
+            relatos = conteudo.split("---")
     except:
-        conteudo = "Nenhum relato ainda."
-    return f"<pre>{conteudo}</pre>"
+        relatos = []
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    html = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Painel Admin</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                font-family: Arial;
+                background: #0f172a;
+                color: white;
+                padding: 20px;
+            }
+            h1 {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            .card {
+                background: #1e293b;
+                padding: 15px;
+                border-radius: 10px;
+                margin-bottom: 15px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.4);
+            }
+            .data {
+                font-size: 12px;
+                color: #38bdf8;
+                margin-bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>📋 Painel de Relatos</h1>
+    """
+
+    for r in relatos:
+        if r.strip():
+            html += f"""
+            <div class="card">
+                <div class="data">{r.splitlines()[0]}</div>
+                <div>{'<br>'.join(r.splitlines()[1:])}</div>
+            </div>
+            """
+
+    html += "</body></html>"
+    return html
